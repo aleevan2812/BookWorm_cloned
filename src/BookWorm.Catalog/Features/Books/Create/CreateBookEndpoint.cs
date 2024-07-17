@@ -1,14 +1,16 @@
 ﻿using BookWorm.Catalog.Domain.BookAggregate;
+using BookWorm.Catalog.Filters;
 using BookWorm.Shared.Endpoints;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.Catalog.Features.Books.Create;
 
 public sealed record CreateBookRequest(
     string Name,
-    string Description,
-    string ImageUrl,
+    string? Description,
+    IFormFile? Image,
     decimal Price,
     decimal PriceSale,
     Status Status,
@@ -20,8 +22,22 @@ public sealed class CreateBookEndpoint : IEndpoint<Created<Guid>, CreateBookRequ
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("/books",
-                async (CreateBookRequest request, ISender sender) => await HandleAsync(request, sender))
+                async ([FromForm] string name,
+                        [FromForm] string? description,
+                        [FromForm] decimal price,
+                        [FromForm] decimal priceSale,
+                        [FromForm] Status status,
+                        [FromForm] Guid categoryId,
+                        [FromForm] Guid publisherId,
+                        [FromForm] List<Guid> authorIds,
+                        IFormFile? image,
+                        ISender sender)
+                    => await HandleAsync(
+                        new(name, description, image, price, priceSale, status, categoryId, publisherId, authorIds),
+                        sender))
+            .AddEndpointFilter<FileValidationFilter>()
             .Produces<Created<Guid>>(StatusCodes.Status201Created)
+            .Produces<BadRequest<ProblemDetails>>(StatusCodes.Status400BadRequest)
             .DisableAntiforgery()
             .WithTags(nameof(Book))
             .WithName("Create Product")
@@ -32,7 +48,7 @@ public sealed class CreateBookEndpoint : IEndpoint<Created<Guid>, CreateBookRequ
         CreateBookCommand command = new(
             request.Name,
             request.Description,
-            request.ImageUrl,
+            request.Image,
             request.Price,
             request.PriceSale,
             request.Status,

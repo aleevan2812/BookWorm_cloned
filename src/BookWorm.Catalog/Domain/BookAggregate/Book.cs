@@ -14,8 +14,8 @@ public sealed class Book : EntityBase, IAggregateRoot, ISoftDelete
 
     public Book(
         string name,
-        string description,
-        string imageUrl,
+        string? description,
+        string? imageUrl,
         decimal price,
         decimal priceSale,
         Status status,
@@ -55,7 +55,7 @@ public sealed class Book : EntityBase, IAggregateRoot, ISoftDelete
 
     public void SetRating(double rating, int totalReviews)
     {
-        AverageRating = Guard.Against.NegativeOrZero(totalReviews);
+        AverageRating = Guard.Against.NegativeOrZero(rating);
         TotalReviews = Guard.Against.NegativeOrZero(totalReviews);
     }
 }

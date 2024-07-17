@@ -1,5 +1,6 @@
 ﻿using BookWorm.AppHost;
 using BookWorm.HealthCheck.Hosting;
+using BookWorm.MailDev.Hosting;
 using BookWorm.Swagger.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -49,6 +50,8 @@ var rabbitMq = builder
     .AddRabbitMQ("eventbus", rabbitMqPassword)
     .WithManagementPlugin();
 
+var smtpServer = builder.AddMailDev("mailserver", httpPort: 1080);
+
 // Services
 var identityApi = builder.AddProject<Projects.BookWorm_Identity>("identity-api")
     .WithExternalHttpEndpoints()
@@ -86,7 +89,8 @@ var basketApi = builder.AddProject<Projects.BookWorm_Basket>("basket-api")
 
 var notificationApi = builder.AddProject<Projects.BookWorm_Notification>("notification-api")
     .WithReference(rabbitMq)
-    .WithReference(notificationDb);
+    .WithReference(notificationDb)
+    .WithReference(smtpServer);
 
 var paymentApi = builder.AddProject<Projects.BookWorm_Payment>("payment-api")
     .WithReference(rabbitMq);
