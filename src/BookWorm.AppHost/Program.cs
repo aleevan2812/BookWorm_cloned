@@ -66,7 +66,7 @@ var catalogApi = builder.AddProject<Projects.BookWorm_Catalog>("catalog-api")
     .WithReference(openAi)
     .WithEnvironment("Identity__Url", identityEndpoint)
     .WithEnvironment("AiOptions__OpenAi__EmbeddingName", "text-embedding-3-small")
-    .WithEnvironment("AzuriteSettings__ConnectionString", blobs.WithEndpoint())
+    .WithEnvironment("AzuriteOptions__ConnectionString", blobs.WithEndpoint())
     .WithSwaggerUi();
 
 var orderingApi = builder.AddProject<Projects.BookWorm_Ordering>("ordering-api")

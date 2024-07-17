@@ -53,9 +53,11 @@ public sealed class Book : EntityBase, IAggregateRoot, ISoftDelete
 
     public void Embed(Vector embedding) => Embedding = embedding;
 
-    public void SetRating(double rating, int totalReviews)
+    public void Delete() => IsDeleted = true;
+
+    public void SetRating(double averageRating, int totalReviews)
     {
-        AverageRating = Guard.Against.NegativeOrZero(rating);
+        AverageRating = Guard.Against.NegativeOrZero(averageRating);
         TotalReviews = Guard.Against.NegativeOrZero(totalReviews);
     }
 }

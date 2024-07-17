@@ -43,7 +43,8 @@ public sealed class CreateBookEndpoint : IEndpoint<Created<Guid>, CreateBookRequ
             .WithName("Create Product")
             .MapToApiVersion(new(1, 0));
 
-    public async Task<Created<Guid>> HandleAsync(CreateBookRequest request, ISender sender)
+    public async Task<Created<Guid>> HandleAsync(CreateBookRequest request, ISender sender,
+        CancellationToken cancellationToken = default)
     {
         CreateBookCommand command = new(
             request.Name,
@@ -56,8 +57,8 @@ public sealed class CreateBookEndpoint : IEndpoint<Created<Guid>, CreateBookRequ
             request.PublisherId,
             request.AuthorIds);
 
-        var result = await sender.Send(command);
+        var result = await sender.Send(command, cancellationToken);
 
-        return TypedResults.Created($"/api/books/{result.Value}", result.Value);
+        return TypedResults.Created($"/api/v1/books/{result.Value}", result.Value);
     }
 }

@@ -3,7 +3,6 @@ using BookWorm.Catalog.Domain.BookAggregate;
 using BookWorm.Catalog.Infrastructure.Ai;
 using BookWorm.Catalog.Infrastructure.Blob;
 using BookWorm.Core.SharedKernel;
-using Microsoft.SemanticKernel.Services;
 
 namespace BookWorm.Catalog.Features.Books.Create;
 
@@ -18,8 +17,8 @@ public sealed record CreateBookCommand(
     Guid PublisherId,
     List<Guid> AuthorIds) : ICommand<Result<Guid>>;
 
-public sealed class CreateProductCommandHandler(
-    IRepository<Book> repository, 
+public sealed class CreateBookHandler(
+    IRepository<Book> repository,
     IAzuriteService azurite,
     IAiService aiService) : ICommandHandler<CreateBookCommand, Result<Guid>>
 {

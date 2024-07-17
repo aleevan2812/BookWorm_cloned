@@ -1,4 +1,6 @@
-﻿using BookWorm.Catalog.Infrastructure.Data;
+﻿using BookWorm.Catalog.Infrastructure.Ai;
+using BookWorm.Catalog.Infrastructure.Blob;
+using BookWorm.Catalog.Infrastructure.Data;
 using BookWorm.ServiceDefaults;
 using BookWorm.Shared.ActivityScope;
 using BookWorm.Shared.Endpoints;
@@ -18,6 +20,8 @@ builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.AddStorage();
+builder.AddAi();
 builder.AddPersistence();
 builder.Services.AddMediatR(cfg =>
 {
