@@ -99,6 +99,7 @@
     <PackageVersion Include="Marten.AspNetCore" Version="7.27.0" />
     <PackageVersion Include="FluentEmail.Mailtrap" Version="2.7.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.ReDoc" Version="6.7.3" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
     <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />

@@ -20,7 +20,7 @@ public sealed class BasketService(ISender sender, IBookService bookService, ILog
 
         if (logger.IsEnabled(LogLevel.Debug))
         {
-            logger.LogDebug("[{Service}] - - Begin grpc call {Method} with {BasketId}",
+            logger.LogDebug("[{Service}] - Begin grpc call {Method} with {BasketId}",
                 nameof(BasketService), nameof(GetBasket), userId);
         }
 
