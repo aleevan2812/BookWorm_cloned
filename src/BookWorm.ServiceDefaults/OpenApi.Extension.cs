@@ -46,7 +46,7 @@ public static class OpenApiExtension
             options.EnableUntrustedSpec();
         });
 
-        if (!app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment())
         {
             app.UseSwaggerUI(options =>
             {
